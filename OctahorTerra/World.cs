@@ -18,7 +18,20 @@ namespace OctahorTerra
             {
                 chunks[i] = new Chunk[WORLD_SIZE];
             }
-            chunks[0][0] = new Chunk();
+            for (int x = 0; x < Chunk.CHUNK_SIZE; x++)
+            {
+                for (int y = 0; y < Chunk.CHUNK_SIZE; y++)
+                {
+                    SetTile(TileType.GROUND, x, y);
+                }
+            }
+            for (int x = Chunk.CHUNK_SIZE; x < Chunk.CHUNK_SIZE*2; x++)
+            {
+                for (int y = 0; y < Chunk.CHUNK_SIZE; y++)
+                {
+                    SetTile(TileType.GRASS, x, y);
+                }
+            }
         }
 
         public void SetTile(TileType type, int x, int y)
@@ -33,6 +46,11 @@ namespace OctahorTerra
         {
             int X = x / Chunk.CHUNK_SIZE;
             int Y = y / Chunk.CHUNK_SIZE;
+
+            if (chunks[X][Y]==null)
+            {
+                chunks[X][Y] = new Chunk(new Vector2i(X, Y));
+            }
 
             return chunks[X][Y];
         }

@@ -13,9 +13,12 @@ namespace OctahorTerra
         //количество плиток в одном чанке
         public const int CHUNK_SIZE = 25;
         Tile[][] tiles;
+        Vector2i chunkPos;
 
-        public Chunk()
+        public Chunk(Vector2i chunkPos)
         {
+            this.chunkPos = chunkPos;
+            Position = new Vector2f(chunkPos.X * CHUNK_SIZE*Tile.TILE_SIZE,chunkPos.Y*CHUNK_SIZE*Tile.TILE_SIZE);
             tiles = new Tile[CHUNK_SIZE][];
 
             for (int i = 0; i < CHUNK_SIZE; i++)
