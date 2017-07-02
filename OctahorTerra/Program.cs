@@ -10,8 +10,10 @@ namespace OctahorTerra
     class Program
     {
         static RenderWindow gameWin;
+
         public static RenderWindow Window { get { return gameWin; } }
         public static Game Game { private set; get; }
+        public static Random Rand { private set; get; }
         static void Main(string[] args)
         {
             //размеры окна по умолчанию
@@ -22,7 +24,9 @@ namespace OctahorTerra
             gameWin.Resized += GameWin_Resized;
 
             Contetn.Load();
-            Game = new Game();
+            Rand = new Random();//Новый обьект рандома
+            Game = new Game();//Создаем новый обьект класса игры
+            
 
             /*ожидание действий пока окно открыто
              * отрисовка игровых обьектов

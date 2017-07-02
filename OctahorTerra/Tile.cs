@@ -42,6 +42,61 @@ namespace OctahorTerra
         Tile leftTile = null;//Левый
         Tile rightTile = null;//Правый
 
+        internal Tile UpTile
+        {
+            get
+            {
+                return upTile;
+            }
+
+            set
+            {
+                upTile = value;
+                UpdateView();
+            }
+        }
+
+        internal Tile DownTile
+        {
+            get
+            {
+                return downTile;
+            }
+
+            set
+            {
+                downTile = value;
+                UpdateView();
+            }
+        }
+
+        internal Tile LeftTile
+        {
+            get
+            {
+                return leftTile;
+            }
+
+            set
+            {
+                leftTile = value;
+                UpdateView();
+            }
+        }
+
+        internal Tile RightTile
+        {
+            get
+            {
+                return rightTile;
+            }
+
+            set
+            {
+                rightTile = value;
+                UpdateView();
+            }
+        }
 
         public Tile(TileType type,Tile upTile,Tile downTile,Tile leftTile,Tile rightTile)
         {
@@ -82,7 +137,6 @@ namespace OctahorTerra
                     rectShape.Texture = Contetn.grassGroundTile;//блок с травой
                     break;
             }
-            rectShape.TextureRect = GetTextureRect(1,1);
             UpdateView();
         }
         /// <summary>
@@ -90,7 +144,14 @@ namespace OctahorTerra
         /// </summary>
         public void UpdateView()
         {
-
+            //есть все соседи
+            if (upTile != null && downTile != null && leftTile != null && rightTile != null)
+            {
+                int i = Program.Rand.Next(0, 3);
+                rectShape.TextureRect = GetTextureRect(1 + i, 1);
+            }
+          
+            
         }
 
         /// <summary>
