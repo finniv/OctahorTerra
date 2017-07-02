@@ -15,13 +15,15 @@ namespace OctahorTerra
         /// </summary>
 
         public const int CHUNK_SIZE = 25;
-        Tile[][] tiles;
-        Vector2i chunkPos;
+        Tile[][] tiles;//массив плиток
+        Vector2i chunkPos;//позиция чанка в массиве мира
 
         public Chunk(Vector2i chunkPos)
         {
+            //выставляем позицию чанка  
             this.chunkPos = chunkPos;
             Position = new Vector2f(chunkPos.X * CHUNK_SIZE*Tile.TILE_SIZE,chunkPos.Y*CHUNK_SIZE*Tile.TILE_SIZE);
+            //двумерный массив плиток    
             tiles = new Tile[CHUNK_SIZE][];
 
             for (int i = 0; i < CHUNK_SIZE; i++)
@@ -35,11 +37,28 @@ namespace OctahorTerra
         /// <param name="type"></param>
         /// <param name="x"></param>
         /// <param name="y"></param>
-        public void SetTile(TileType type,int x, int y)
+        public void SetTile(TileType type,int x, int y, Tile upTile, Tile downTile, Tile leftTile, Tile rightTile)
         {
-            tiles[x][y] = new Tile(type);
+            tiles[x][y] = new Tile(type, upTile, downTile, leftTile, rightTile);
             tiles[x][y].Position = new Vector2f(x*Tile.TILE_SIZE,y*Tile.TILE_SIZE);
         }
+
+        /// <summary>
+        /// Получить плитку из чанка
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        public Tile GetTile(int x, int y)
+        {
+            //усли позиция плитки выходит за пределы чанка
+            if (x<0||y<0||x>=CHUNK_SIZE|| y >= CHUNK_SIZE)
+            {
+                return null;//то возвращает null
+            }
+            //иначе возвращаем плитку ,даже если она равна null
+            return tiles[x][y];
+        }
+
         /// <summary>
         /// рисуем плитки
         /// </summary>

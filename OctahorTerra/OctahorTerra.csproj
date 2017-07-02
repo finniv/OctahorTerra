@@ -67,8 +67,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="bin\Debug\OctahorTerra.exe.config" />
     <None Include="ClassDiagram1.cd" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="bin\Content\Textures\Tiles_0.png" />
+    <Content Include="bin\Content\Textures\Tiles_2.png" />
+    <Content Include="bin\Debug\OctahorTerra.exe" />
+    <Content Include="bin\Debug\OctahorTerra.pdb" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

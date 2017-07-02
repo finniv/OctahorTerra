@@ -31,11 +31,45 @@ namespace OctahorTerra
         /// <param name="GROUND"></param>
         /// </summary>
         TileType type = TileType.GROUND;
+        /// <summary>
+        /// Форма плитки
+        /// </summary>
         RectangleShape rectShape;
 
-        public Tile(TileType type)
+        //Соседи
+        Tile upTile = null;//Верхний
+        Tile downTile = null;//Нижний
+        Tile leftTile = null;//Левый
+        Tile rightTile = null;//Правый
+
+
+        public Tile(TileType type,Tile upTile,Tile downTile,Tile leftTile,Tile rightTile)
         {
-            this.type = type; 
+            this.type = type;
+
+            if (upTile!=null)
+            {
+                this.upTile = upTile;
+                this.upTile.downTile = this;//Для верхнего соседа,эта плитка нижняя
+            }
+
+            if (downTile != null)
+            {
+                this.downTile = downTile;
+                this.downTile.upTile = this;//Для нижнего соседа,эта плитка верхняя
+            }
+
+            if (leftTile != null)
+            {
+                this.leftTile = leftTile;
+                this.leftTile.rightTile = this;//Для левого соседа,эта плитка правая
+            }
+
+            if (rightTile != null)
+            {
+                this.rightTile = rightTile;
+                this.rightTile.leftTile = this;//Для правого соседа,эта плитка левая
+            }
 
             rectShape = new RectangleShape(new Vector2f(TILE_SIZE,TILE_SIZE));
 
@@ -48,7 +82,28 @@ namespace OctahorTerra
                     rectShape.Texture = Contetn.grassGroundTile;//блок с травой
                     break;
             }
-            rectShape.TextureRect = new IntRect(0, 0, TILE_SIZE, TILE_SIZE);
+            rectShape.TextureRect = GetTextureRect(1,1);
+            UpdateView();
+        }
+        /// <summary>
+        /// Обновление внешнего вида плитки в зависимости от соседей
+        /// </summary>
+        public void UpdateView()
+        {
+
+        }
+
+        /// <summary>
+        /// размер импортируемой плитки
+        /// </summary>
+        /// <param name="i"></param>
+        /// <param name="j"></param>
+        /// <returns></returns>
+        public IntRect GetTextureRect(int i,int j)
+        {
+            int x = i * TILE_SIZE + i * 2;
+            int y = j * TILE_SIZE + j * 2;
+            return new IntRect(x,y, TILE_SIZE, TILE_SIZE);
         }
 
         public void Draw(RenderTarget target, RenderStates states)
