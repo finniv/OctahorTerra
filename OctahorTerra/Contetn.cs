@@ -10,13 +10,16 @@ namespace OctahorTerra
     class Contetn
     {
         public const string CONTENT_DIR = "..\\Content\\";
-        public static Texture texTile0;
-        public static Texture texTile1;
+        public static Texture groundTile;
+        public static Texture grassGroundTile;
 
+        /// <summary>
+        /// Загрузка текстур
+        /// </summary>
         public static void Load()
         {
-            texTile0 = new Texture(CONTENT_DIR +"Textures\\Tiles_0.png");
-            texTile1 = new Texture(CONTENT_DIR + "Textures\\Tiles_2.png");
+            groundTile = new Texture(CONTENT_DIR +"Textures\\Tiles_0.png");
+            grassGroundTile = new Texture(CONTENT_DIR + "Textures\\Tiles_2.png");
         }
     }
 }

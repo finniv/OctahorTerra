@@ -14,6 +14,7 @@ namespace OctahorTerra
         public static Game Game { private set; get; }
         static void Main(string[] args)
         {
+            //размеры окна по умолчанию
             gameWin = new RenderWindow(new SFML.Window.VideoMode(800, 600),"OctahorTerra");
             gameWin.SetVerticalSyncEnabled(true);
 
@@ -23,6 +24,10 @@ namespace OctahorTerra
             Contetn.Load();
             Game = new Game();
 
+            /*ожидание действий пока окно открыто
+             * отрисовка игровых обьектов
+             * заливка фона черным
+             */
             while (gameWin.IsOpen)
             {
                 gameWin.DispatchEvents();
@@ -36,12 +41,17 @@ namespace OctahorTerra
                 gameWin.Display();
             }
         }
-
+        /// <summary>
+        /// Срабатывает при изменении размера окна
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private static void GameWin_Resized(object sender, SFML.Window.SizeEventArgs e)
         {
             gameWin.SetView(new View(new FloatRect(0, 0, e.Width, e.Height)));
         }
 
+        /*закрытие окна*/
         private static void GameWin_Closed(object sender, EventArgs e)
         {
             gameWin.Close();

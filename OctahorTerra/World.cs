@@ -7,7 +7,7 @@ namespace OctahorTerra
     class World : Transformable,Drawable
     {
         public const int WORLD_SIZE = 25;
-
+        /*мир представлен двумерным массивом чанков*/
         Chunk[][] chunks;
 
         public World()
