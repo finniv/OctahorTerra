@@ -29,11 +29,12 @@ namespace OctahorTerra
         /// </summary>
         public void GenerateWorld()
         {
-            for (int x = 5; x < 13; x++)
+            for (int x = 5; x < 40; x++)
             {
-                for (int y = 5; y < 12; y++)
+                for (int y = 5; y < 40; y++)
                 {
                     SetTile(TileType.GROUND, x, y);
+                    
                 }
             }
         }

@@ -23,7 +23,7 @@ namespace OctahorTerra
             gameWin.Closed += GameWin_Closed;
             gameWin.Resized += GameWin_Resized;
 
-            Contetn.Load();
+            Content.Load();
             Rand = new Random();//Новый обьект рандома
             Game = new Game();//Создаем новый обьект класса игры
             

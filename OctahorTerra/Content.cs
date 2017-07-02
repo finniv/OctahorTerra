@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace OctahorTerra
 {
-    class Contetn
+    class Content
     {
         public const string CONTENT_DIR = "..\\Content\\";
         public static Texture groundTile;
