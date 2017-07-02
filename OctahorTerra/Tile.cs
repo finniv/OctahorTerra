@@ -42,7 +42,7 @@ namespace OctahorTerra
         Tile leftTile = null;//Левый
         Tile rightTile = null;//Правый
 
-        internal Tile UpTile
+        public Tile UpTile
         {
             get
             {
@@ -56,7 +56,7 @@ namespace OctahorTerra
             }
         }
 
-        internal Tile DownTile
+        public Tile DownTile
         {
             get
             {
@@ -70,7 +70,7 @@ namespace OctahorTerra
             }
         }
 
-        internal Tile LeftTile
+        public Tile LeftTile
         {
             get
             {
@@ -84,7 +84,7 @@ namespace OctahorTerra
             }
         }
 
-        internal Tile RightTile
+        public Tile RightTile
         {
             get
             {
@@ -98,32 +98,32 @@ namespace OctahorTerra
             }
         }
 
-        public Tile(TileType type,Tile upTile,Tile downTile,Tile leftTile,Tile rightTile)
+        public Tile(TileType type,Tile UpTile,Tile DownTile,Tile LeftTile,Tile RightTile)
         {
             this.type = type;
 
-            if (upTile!=null)
+            if (UpTile!=null)
             {
-                this.upTile = upTile;
-                this.upTile.downTile = this;//Для верхнего соседа,эта плитка нижняя
+                this.UpTile = UpTile;
+                this.UpTile.DownTile = this;//Для верхнего соседа,эта плитка нижняя
             }
 
-            if (downTile != null)
+            if (DownTile != null)
             {
-                this.downTile = downTile;
-                this.downTile.upTile = this;//Для нижнего соседа,эта плитка верхняя
+                this.DownTile = DownTile;
+                this.DownTile.UpTile = this;//Для нижнего соседа,эта плитка верхняя
             }
 
-            if (leftTile != null)
+            if (LeftTile != null)
             {
-                this.leftTile = leftTile;
-                this.leftTile.rightTile = this;//Для левого соседа,эта плитка правая
+                this.LeftTile = LeftTile;
+                this.LeftTile.RightTile = this;//Для левого соседа,эта плитка правая
             }
 
-            if (rightTile != null)
+            if (RightTile != null)
             {
-                this.rightTile = rightTile;
-                this.rightTile.leftTile = this;//Для правого соседа,эта плитка левая
+                this.RightTile = RightTile;
+                this.RightTile.LeftTile = this;//Для правого соседа,эта плитка левая
             }
 
             rectShape = new RectangleShape(new Vector2f(TILE_SIZE,TILE_SIZE));
@@ -145,17 +145,70 @@ namespace OctahorTerra
         public void UpdateView()
         {
             //есть все соседи
-            if (upTile != null && downTile != null && leftTile != null && rightTile != null)
+            if (UpTile != null && DownTile != null && LeftTile != null && RightTile != null)
             {
                 int i = Program.Rand.Next(0, 3);
                 rectShape.TextureRect = GetTextureRect(1 + i, 1);
             }
-          
-            
+
+            //нет соседей
+            else if (UpTile == null && DownTile == null && LeftTile == null && RightTile == null)
+            {
+                int i = Program.Rand.Next(0, 3);
+                rectShape.TextureRect = GetTextureRect(9 + i, 3);
+            }//----------------------------------------------------------------------
+            //нет соседа сверху
+            else if (UpTile == null && DownTile != null && LeftTile != null && RightTile != null)
+            {
+                int i = Program.Rand.Next(0, 3);
+                rectShape.TextureRect = GetTextureRect(1 + i, 0);
+            }
+            //нет соседа снизу
+            else if (UpTile != null && DownTile == null && LeftTile != null && RightTile != null)
+            {
+                int i = Program.Rand.Next(0, 3);
+                rectShape.TextureRect = GetTextureRect(1 + i, 2);
+            }
+            //нет соседа слева
+            else if (UpTile != null && DownTile != null && LeftTile == null && RightTile != null)
+            {
+                int i = Program.Rand.Next(0, 3);
+                rectShape.TextureRect = GetTextureRect(0, i);
+            } 
+            //нет соседа справа
+            else if (UpTile != null && DownTile != null && LeftTile != null && RightTile == null)
+            {
+                int i = Program.Rand.Next(0, 3);
+                rectShape.TextureRect = GetTextureRect(4, i);
+            }//----------------------------------------------------------------------
+            //нет соседа сверху слева
+            else if (UpTile == null && DownTile != null && LeftTile == null && RightTile != null)
+            {
+                int i = Program.Rand.Next(0, 3);
+                rectShape.TextureRect = GetTextureRect(0 + i*2, 3);
+            }
+            //нет соседа сверху справа
+            else if (UpTile == null && DownTile != null && LeftTile != null && RightTile == null)
+            {
+                int i = Program.Rand.Next(0, 3);
+                rectShape.TextureRect = GetTextureRect(1 + i*2, 3);
+            }
+            //нет соседа слева снизу
+            else if (UpTile != null && DownTile == null && LeftTile == null && RightTile != null)
+            {
+                int i = Program.Rand.Next(0, 3);
+                rectShape.TextureRect = GetTextureRect(0+i*2, 4);
+            }
+            //нет соседа справа снизу
+            else if (UpTile != null && DownTile == null && LeftTile != null && RightTile == null)
+            {
+                int i = Program.Rand.Next(0, 3);
+                rectShape.TextureRect = GetTextureRect(1 + i * 2, 4);
+            }
         }
 
         /// <summary>
-        /// размер импортируемой плитки
+        /// адресс импортируеммой плитки
         /// </summary>
         /// <param name="i"></param>
         /// <param name="j"></param>
