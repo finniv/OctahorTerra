@@ -1,10 +1,5 @@
 ﻿using SFML.Graphics;
 using SFML.System;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OctahorTerra
 {
@@ -42,7 +37,7 @@ namespace OctahorTerra
         Tile leftTile = null;//Левый
         Tile rightTile = null;//Правый
 
-        internal Tile UpTile
+        public Tile UpTile
         {
             get
             {
@@ -56,7 +51,7 @@ namespace OctahorTerra
             }
         }
 
-        internal Tile DownTile
+        public Tile DownTile
         {
             get
             {
@@ -70,7 +65,7 @@ namespace OctahorTerra
             }
         }
 
-        internal Tile LeftTile
+        public Tile LeftTile
         {
             get
             {
@@ -84,7 +79,7 @@ namespace OctahorTerra
             }
         }
 
-        internal Tile RightTile
+        public Tile RightTile
         {
             get
             {
@@ -98,43 +93,41 @@ namespace OctahorTerra
             }
         }
 
-        public Tile(TileType type,Tile upTile,Tile downTile,Tile leftTile,Tile rightTile)
+        public Tile(TileType type, Tile upTile, Tile downTile, Tile leftTile, Tile rightTile)
         {
             this.type = type;
 
-            if (upTile!=null)
+            // Присваиваем соседей, а соседям эту плитку
+            if (upTile != null)
             {
                 this.upTile = upTile;
-                this.upTile.downTile = this;//Для верхнего соседа,эта плитка нижняя
+                this.upTile.DownTile = this;    // Для верхнего соседа эта плитка будет нижним соседом
             }
-
             if (downTile != null)
             {
                 this.downTile = downTile;
-                this.downTile.upTile = this;//Для нижнего соседа,эта плитка верхняя
+                this.downTile.UpTile = this;    // Для нижнего соседа эта плитка будет верхним соседом
             }
-
             if (leftTile != null)
             {
                 this.leftTile = leftTile;
-                this.leftTile.rightTile = this;//Для левого соседа,эта плитка правая
+                this.leftTile.RightTile = this;    // Для левого соседа эта плитка будет правым соседом
             }
-
             if (rightTile != null)
             {
                 this.rightTile = rightTile;
-                this.rightTile.leftTile = this;//Для правого соседа,эта плитка левая
+                this.rightTile.LeftTile = this;    // Для правого соседа эта плитка будет левым соседом
             }
 
-            rectShape = new RectangleShape(new Vector2f(TILE_SIZE,TILE_SIZE));
+            rectShape = new RectangleShape(new Vector2f(TILE_SIZE, TILE_SIZE));
 
             switch (type)
             {
                 case TileType.GROUND:
-                    rectShape.Texture = Contetn.groundTile;//блок с землей
+                    rectShape.Texture = Content.groundTile;//блок с землей
                     break;
                 case TileType.GRASS:
-                    rectShape.Texture = Contetn.grassGroundTile;//блок с травой
+                    rectShape.Texture = Content.grassGroundTile;//блок с травой
                     break;
             }
             UpdateView();
@@ -145,26 +138,79 @@ namespace OctahorTerra
         public void UpdateView()
         {
             //есть все соседи
-            if (upTile != null && downTile != null && leftTile != null && rightTile != null)
+            if (UpTile != null && DownTile != null && LeftTile != null && RightTile != null)
             {
                 int i = Program.Rand.Next(0, 3);
                 rectShape.TextureRect = GetTextureRect(1 + i, 1);
             }
-          
-            
+
+            //нет соседей
+            else if (UpTile == null && DownTile == null && LeftTile == null && RightTile == null)
+            {
+                int i = Program.Rand.Next(0, 3);
+                rectShape.TextureRect = GetTextureRect(9 + i, 3);
+            }//----------------------------------------------------------------------
+            //нет соседа сверху
+            else if (UpTile == null && DownTile != null && LeftTile != null && RightTile != null)
+            {
+                int i = Program.Rand.Next(0, 3);
+                rectShape.TextureRect = GetTextureRect(1 + i, 0);
+            }
+            //нет соседа снизу
+            else if (UpTile != null && DownTile == null && LeftTile != null && RightTile != null)
+            {
+                int i = Program.Rand.Next(0, 3);
+                rectShape.TextureRect = GetTextureRect(1 + i, 2);
+            }
+            //нет соседа слева
+            else if (UpTile != null && DownTile != null && LeftTile == null && RightTile != null)
+            {
+                int i = Program.Rand.Next(0, 3);
+                rectShape.TextureRect = GetTextureRect(0, i);
+            }
+            //нет соседа справа
+            else if (UpTile != null && DownTile != null && LeftTile != null && RightTile == null)
+            {
+                int i = Program.Rand.Next(0, 3);
+                rectShape.TextureRect = GetTextureRect(4, i);
+            }//----------------------------------------------------------------------
+            //нет соседа сверху слева
+            else if (UpTile == null && DownTile != null && LeftTile == null && RightTile != null)
+            {
+                int i = Program.Rand.Next(0, 3);
+                rectShape.TextureRect = GetTextureRect(0 + i * 2, 3);
+            }
+            //нет соседа сверху справа
+            else if (UpTile == null && DownTile != null && LeftTile != null && RightTile == null)
+            {
+                int i = Program.Rand.Next(0, 3);
+                rectShape.TextureRect = GetTextureRect(1 + i * 2, 3);
+            }
+            //нет соседа слева снизу
+            else if (UpTile != null && DownTile == null && LeftTile == null && RightTile != null)
+            {
+                int i = Program.Rand.Next(0, 3);
+                rectShape.TextureRect = GetTextureRect(0 + i * 2, 4);
+            }
+            //нет соседа справа снизу
+            else if (UpTile != null && DownTile == null && LeftTile != null && RightTile == null)
+            {
+                int i = Program.Rand.Next(0, 3);
+                rectShape.TextureRect = GetTextureRect(1 + i * 2, 4);
+            }
         }
 
         /// <summary>
-        /// размер импортируемой плитки
+        /// адресс импортируеммой плитки
         /// </summary>
         /// <param name="i"></param>
         /// <param name="j"></param>
         /// <returns></returns>
-        public IntRect GetTextureRect(int i,int j)
+        public IntRect GetTextureRect(int i, int j)
         {
             int x = i * TILE_SIZE + i * 2;
             int y = j * TILE_SIZE + j * 2;
-            return new IntRect(x,y, TILE_SIZE, TILE_SIZE);
+            return new IntRect(x, y, TILE_SIZE, TILE_SIZE);
         }
 
         public void Draw(RenderTarget target, RenderStates states)
